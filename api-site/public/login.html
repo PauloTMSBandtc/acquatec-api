@@ -51,17 +51,15 @@
             <div class="card medio">
                 <h2>Olá de volta!</h2>
                 <div class="formulario">
-                    <form id="form_login" method="post" onsubmit="return entrar()">
+                    <div>
                         E-mail:
-                        <input name="email" type="text" placeholder="Login">
+                        <input id="email_input" type="text" placeholder="Login">
                         <br>
                         Senha:
-                        <input name="senha" type="password" placeholder="******">
+                        <input id="senha_input" type="password" placeholder="******">
                         <br>
-                        <button class="btn" type="submit">
-                            Entrar
-                        </button>
-                    </form>
+                        <button class="btn" onclick="entrar()">Entrar</button>
+                    </div>
 
 
                 </div>
@@ -84,47 +82,28 @@
         </div>
     </div>
 
-    <!-- modal?
-
-    <div id="div_modal" class="div-modal">
-        <div id="modal_backdrop" onclick="fecharModal()" class="modal-backdrop">
-        </div>
-        <div id="modal_container" class="modal-container">
-            <button onclick="fecharModal()">fechar modal</button>
-        </div>
-    </div> -->
-
-
-
 </body>
 
 </html>
 
 <script>
-
-    function limparFormulario() {
-        document.getElementById("form_login").reset();
-    }
-
     function entrar() {
         aguardar();
 
-        var formulario = new URLSearchParams(new FormData(document.getElementById("form_login")));
+        var emailVar = email_input.value;
+        var senhaVar = senha_input.value;
 
-        var email = formulario.get("email");
-        var senha = formulario.get("senha");
-
-        console.log("FORM LOGIN: ", email);
-        console.log("FORM SENHA: ", senha);
+        console.log("FORM LOGIN: ", emailVar);
+        console.log("FORM SENHA: ", senhaVar);
 
         // TODO: VERIFICAR AS VALIDAÇÕES QUE ELES ESTÃO APRENDENDO EM ALGORITMOS 
-        if (email == "" || senha == "") {
+        if (emailVar == "" || senhaVar == "") {
             window.alert("Preencha todos os campos para prosseguir!");
             finalizarAguardar();
             return false;
         }
 
-        if (email.indexOf("@") == -1 || email.indexOf(".com") == -1) {
+        if (emailVar.indexOf("@") == -1 || emailVar.indexOf(".com") == -1) {
             window.alert("Ops, e-mail inválido! Verifique e tente novamente.");
             finalizarAguardar();
             return false;
@@ -132,7 +111,13 @@
 
         fetch("/usuarios/autenticar", {
             method: "POST",
-            body: formulario
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                emailServer: emailVar,
+                senhaServer: senhaVar
+            })
         }).then(function (resposta) {
             console.log("ESTOU NO THEN DO entrar()!")
 

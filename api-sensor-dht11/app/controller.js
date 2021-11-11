@@ -35,9 +35,8 @@ router.post('/sendData', (request, response) => {
 
     let data_agora = new Date()
 
-    var sql = "INSERT INTO medida(temperatura, umidade, momento, fk_aquario) VALUES(?)";
-    values = [temperatura, umidade, data_agora, ((Math.random() * 3) + 1)];
-    db.query(sql, [values], function(err, result){
+    var sql = `INSERT INTO medida(temperatura, umidade, momento, fk_aquario) VALUES(${temperatura}, ${umidade}, now(), 1)`;
+    db.query(sql, function(err, result){
         if(err) throw err;
         console.log("Medidas inseridas: " + result.affectedRows)
     });

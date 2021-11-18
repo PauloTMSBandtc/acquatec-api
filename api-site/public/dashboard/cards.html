@@ -18,7 +18,7 @@
         rel="stylesheet">
 </head>
 
-<body onload="validarSessao()">
+<body onload="validarSessao(), atualizacaoPeriodica()">
 
     <div class="janela">
 
@@ -123,6 +123,16 @@
         obterdados(2);
         obterdados(3);
         obterdados(4);
+
+        function sendData() {
+			var http = new XMLHttpRequest();
+			http.open('POST', 'http://localhost:3000/api/sendData', false);
+			http.send(null);
+		}
+
+        setInterval(() => {
+			sendData();
+		}, 2000);
         setTimeout(atualizacaoPeriodica, 5000);
     }
 
@@ -149,11 +159,12 @@
             .catch(function (error) {
                 console.error(`Erro na obtenção dos dados do aquario p/ gráfico: ${error.message}`);
             });
+
     }
 
     function alertar(temperatura, idAquario) {
         var limites = {
-            muito_quente: 25,
+            muito_quente: 23,
             quente: 22,
             ideal: 20,
             frio: 10,

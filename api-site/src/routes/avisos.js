@@ -23,12 +23,12 @@ router.post("/publicar/:idUsuario", function (req, res) {
     avisoController.publicar(req, res);
 });
 
-router.delete("/avisos/deletar/:idAviso", function (req, res) {
-    avisoController.deletar(req, res);
+router.put("/editar/:idAviso", function (req, res) {
+    avisoController.editar(req, res);
 });
 
-router.put("/avisos/editar/:idAviso", function (req, res) {
-    avisoController.editar(req, res);
+router.delete("/deletar/:idAviso", function (req, res) {
+    avisoController.deletar(req, res);
 });
 
 module.exports = router;
